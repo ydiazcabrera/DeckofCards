@@ -1,30 +1,68 @@
 ﻿
 @model IEnumerable<DeckOfCards.Models.Card>
 
-<<div class="container">
-    <form action="~/Home" method="post">
-        <div class="row">
 
-
-            @foreach (var card in Model)
-            {
-                <div class="col-md-2">
-                    <div class="row">
-                    </div>
-                    <h4>
-                        @card.Value
-                    </h4>
-                </div>
-                <div class="row">
-                    <img src="@card.Image" alt="Alternate Text" />
-
-                </div>
-
-
-
-            }
+<body>
+    <div id="nav_bar" class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Deck of Cards", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                </ul>
+            </div>
         </div>
+    </div>
+ </body>
+    <div class="container">
+        <form action="~/Home" method="post">
+            <div class="row">
+                @if (int.Parse(Model.Count().ToString()) <= 0)
+                {
+                    <h4>Sorry,No cards left</h4>
+                }
+                @{
+                    int count = 0;
 
+                }
+                @foreach (var card in Model)
+                {
+                    <div class="col-md-2">
+                        <div class="row">
+                            <h4>
+                                @card.Value
+                            </h4>
+                        </div>
 
-    </form>
-</div>
+                        <div class="row">
+                            <img src="@card.Image" alt="Alternate Text" />
+
+                            <div class="row">
+
+                                @{
+                                    count++;
+                                    string input = "Card" + count;
+                                }
+                                <p class="text-center"><input type="checkbox" name="@input" value="@card.Code" /> @card.Value </p>
+                            </div>
+                        </div>
+
+                    </div>
+                }
+            </div>
+            <div class="row"><h4> Select the cards you wish to keep</h4> </div>
+
+            <div class="row">
+                <input type="hidden" name="count" value="5" />
+                <input type="submit" name="submit" value="Draw" />
+            </div>
+
+        </form>
+    </div>
